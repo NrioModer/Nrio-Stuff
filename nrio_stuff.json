@@ -1,0 +1,13 @@
+{
+	"id": "nrio_stuff",
+	"name": "Nrio Stuff",
+	"display_name": "Nrio Stuff",
+	"author": ["Nrio_Moder"],
+	"description": "A mod that will improve or deteriorate as I add content. :)",
+	"prefix": "ns",
+	"main_file": "src/init.lua",
+	"priority": 0,
+	"badge_colour": "91CF60",
+	"version": "1.0.2-a",
+	"dependencies": []
+}

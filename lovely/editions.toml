@@ -1,0 +1,100 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = -1
+
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = "self.GAME.round_resets.blind_choices.Boss = get_new_boss()"
+position = "after"
+payload = '''
+function deepCopy(original)
+    if type(original) ~= "table" then return original end 
+    local copy = {}
+    for k, v in pairs(original) do
+        copy[k] = deepCopy(v)
+    end
+    return copy
+end
+
+G.P_CENTERS.e_ns_prismatic.in_shop = false
+if G.P_BLIND_EDITIONS then
+	G.P_BLIND_EDITIONS.ble_ns_prismatic.weight = 0
+end
+for k, v in pairs(G.P_CENTER_POOLS.Edition) do
+    v.config = v.safe_config or v.config
+    v.extra_cost = v.safe_extra_cost or v.extra_cost 
+end
+if G.GAME.starting_params.ns_concert or G.GAME.starting_params.ns_concert_sleeve then
+    	for k, v in pairs(G.P_CENTER_POOLS.Edition) do
+    		if G.GAME.starting_params.ns_concert and G.GAME.starting_params.ns_concert_sleeve then
+    			v.safe_extra_cost = v.extra_cost
+    			v.extra_cost = 0
+		end
+		v.safe_config = deepCopy(v.config)
+    		if v.config and type(v.config) == "table" then
+        		for config_key, config_value in pairs(v.config) do
+            			if type(config_value) == "number" then
+                			v.config[config_key] = config_value * 1.5
+            			end
+        		end
+    		end
+    	end
+end
+'''
+match_indent = true
+
+
+
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "self:update_alert()"
+position = "after"
+match_indent = true
+payload = """
+if G.GAME.starting_params.ns_concert or G.GAME.starting_params.ns_concert_sleeve then
+	if to_big(G.GAME.dollars) > to_big(50) then
+		G.GAME.dollars = 50
+	end
+end
+"""
+
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = "context = context or {}"
+position = "after"
+match_indent = true
+payload = """
+if context.playing_card_end_of_round and context.cardarea == G.hand then
+	if G.GAME.starting_params.ns_abstract or G.GAME.starting_params.ns_abstract_sleeve then
+		if G.GAME.starting_params.ns_abstract and G.GAME.starting_params.ns_abstract_sleeve then
+			G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.8,
+				func = function()
+			    		local suits = {}
+        		    		local ranks = {}
+					for _, card in pairs(G.playing_cards) do
+						ranks[card.base.value] = card.base.value
+						suits[card.base.value] = card.base.suit
+					end
+					local suit_prefix = pseudorandom_element(suits, pseudoseed("yra suits"))
+        		    		local rank_suffix = pseudorandom_element(ranks, pseudoseed("yra ranks"))
+        	            		assert(SMODS.change_base(card, suit_prefix, rank_suffix))
+			    		return true
+				end
+			}))
+		else
+			G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.8,
+				func = function()
+			    		local suit_prefix = pseudorandom_element(SMODS.Suits, pseudoseed("yra"))
+        		    		local rank_suffix = pseudorandom_element(SMODS.Ranks, pseudoseed("yra"))
+        	            		assert(SMODS.change_base(card, suit_prefix.key, rank_suffix.key))
+			    		return true
+				end
+			}))
+		end
+	end
+end
+"""
