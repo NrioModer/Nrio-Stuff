@@ -18,7 +18,9 @@ function deepCopy(original)
     return copy
 end
 
-G.P_CENTERS.e_ns_prismatic.in_shop = false
+if G.P_CENTERS.e_ns_prismatic then
+	G.P_CENTERS.e_ns_prismatic.in_shop = false
+end
 if G.P_BLIND_EDITIONS then
 	G.P_BLIND_EDITIONS.ble_ns_prismatic.weight = 0
 end

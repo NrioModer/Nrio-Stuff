@@ -128,6 +128,12 @@ if ns_config["Jokers :D"] then
 	})
 end
 
+if ns_config["Jokers :D"] then
+	NrioStuff.load("challenge")("challenges", {
+   		"april_fool"
+	})
+end
+
 local usingMoreFluff=SMODS.Mods and SMODS.Mods["MoreFluff"] and SMODS.Mods["MoreFluff"].can_load or false
 local usingortalab=SMODS.Mods and SMODS.Mods["ortalab"] and SMODS.Mods["ortalab"].can_load or false
 if usingMoreFluff and ns_config["Collabs Editions"] then
