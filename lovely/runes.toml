@@ -1,0 +1,86 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = -1
+
+[[patches]]
+[patches.pattern]
+target = 'blind.lua'
+pattern = '''G.GAME.current_round.dollars_to_be_earned = self.dollars > 0 and (string.rep(localize('$'), self.dollars)..'') or ('')'''
+position = 'at'
+payload = '''G.GAME.current_round.dollars_to_be_earned = dollars_to_string(self.dollars)'''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = 'functions/button_callbacks.lua'
+pattern = '''G.GAME.skips = (G.GAME.skips or 0) + 1'''
+position = 'before'
+payload = '''
+if G.GAME.used_berkano then
+	ease_dollars(G.GAME.used_berkano)
+end
+if G.GAME.used_ehwaz then
+	for i = 1, G.GAME.used_ehwaz do
+		if G.consumeables.cards[1] then
+                    G.E_MANAGER:add_event(Event({
+                        func = function() 
+                            local card = copy_card(pseudorandom_element(G.consumeables.cards, pseudoseed('perkeo')), nil)
+                            card:set_edition({negative = true}, true)
+                            card:add_to_deck()
+                            G.consumeables:emplace(card) 
+                            return true
+                        end}))
+                end
+	end
+end
+'''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = 'blind.lua'
+pattern = '''self:set_text()'''
+position = 'before'
+payload = '''
+if self:get_type() == 'Small' and G.GAME.used_hagalaz then
+	if not G.GAME.reduce_small then
+		G.GAME.reduce_small = 1
+	end
+	G.GAME.reduce_small = G.GAME.reduce_small * G.GAME.used_hagalaz / 100
+	self.mult = self.mult * G.GAME.reduce_small
+end
+if self:get_type() == 'Big' and G.GAME.used_hagalaz then
+	if not G.GAME.reduce_big then
+		G.GAME.reduce_big = 1
+	end
+	G.GAME.reduce_big = G.GAME.reduce_big * G.GAME.used_hagalaz / 100
+	self.mult = self.mult * G.GAME.reduce_big
+end
+if self:get_type() == 'Boss' and G.GAME.used_hagalaz then
+	if not G.GAME.reduce_boss then
+		G.GAME.reduce_boss = 1
+	end
+	G.GAME.reduce_boss = G.GAME.reduce_boss * G.GAME.used_hagalaz / 100
+	self.mult = self.mult * G.GAME.reduce_boss
+end
+G.GAME.used_hagalaz = 100
+if G.GAME.used_dagaz and blind and blind.name then
+	for i = 1, G.GAME.used_dagaz do
+        	local tag = nil
+		local type = G.GAME.blind:get_type()
+		if type == "Boss" then
+			tag = Tag(get_next_tag_key())
+		else
+			tag = Tag(G.GAME.round_resets.blind_tags[type])
+		end
+		add_tag(tag)
+	end
+	G.GAME.used_dagaz = 0
+end
+if G.GAME.used_jera then
+	self.dollars = self.dollars * G.GAME.used_jera
+end
+G.GAME.used_jera = 1
+'''
+match_indent = true

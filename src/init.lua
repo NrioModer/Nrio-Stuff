@@ -15,6 +15,9 @@ end
 if ns_config["Jokers :D"] == nil then
   ns_config["Jokers :D"] = true
 end
+if ns_config["Consumable!!!!"] == nil then
+  ns_config["Consumable!!!!"] = true
+end
 
 NrioStuff = {
   mod = SMODS.current_mod,
@@ -51,6 +54,8 @@ local nriostuffTabs = function() return {
         create_toggle({ label = localize("ns_config_decksluwu"), ref_table = ns_config, ref_value = "Decks and Sleeves" })
       settings.nodes[#settings.nodes + 1] =
         create_toggle({ label = localize("ns_config_jokers"), ref_table = ns_config, ref_value = "Jokers :D" })
+      settings.nodes[#settings.nodes + 1] =
+        create_toggle({ label = localize("ns_config_con_sum_able"), ref_table = ns_config, ref_value = "Consumable!!!!" })
 			config = { n = G.UIT.R, config = { align = "tm", padding = 0 }, nodes = { settings } }
 			ns_nodes[#ns_nodes + 1] = config
 			return {
@@ -108,7 +113,8 @@ if ns_config["Decks and Sleeves"] then
 	NrioStuff.load("deck")("decks", {
   		"turquoise",
   		"concert",
-  		"abstract"  
+  		"abstract",
+		--"formulaic",
 	})
 end
 
@@ -131,6 +137,12 @@ end
 if ns_config["Jokers :D"] then
 	NrioStuff.load("challenge")("challenges", {
    		"april_fool"
+	})
+end
+
+if ns_config["Consumable!!!!"] then
+	NrioStuff.load("consumable")("consumables", {
+  		"rune",
 	})
 end
 

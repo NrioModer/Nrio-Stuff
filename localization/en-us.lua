@@ -1,5 +1,14 @@
 return {
   descriptions = {
+    Other={
+	ns_rune={
+                name="Rune",
+                text={
+                    "Can only be used",
+		    "in {C:attention}blind{} selecting"
+                },
+        },
+    },
     Sleeve = {
       sleeve_ns_turquoise = {
         name = "Turquoise Sleeve",
@@ -53,10 +62,12 @@ return {
       ns_b_convert_discard="Convert",
       ns_config_features = "Features",
       ns_config_editions = "Editions",
+      ns_rune = "Editions",
       ns_config_bb_editions = "Blind Editions",
       ns_config_c_editions = "Collabs Editions",
       ns_config_decksluwu = "Decks and Sleeves",
       ns_config_jokers = "Jokers :D",
+      ns_config_con_sum_able = "Consumable!!!!",
     },
   }
 }

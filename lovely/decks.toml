@@ -1,0 +1,28 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = -1
+
+
+[[patches]]
+[patches.pattern]
+target = 'back.lua'
+pattern = '''if self.name == 'Plasma Deck' and args.context == 'blind_amount' then'''
+position = 'before'
+payload = '''
+if G.GAME.starting_params.ns_formulaic or G.GAME.starting_params.ns_formulaic_sleeve then
+    if args.context == 'blind_amount' then
+        return 
+    end
+
+    if args.context == 'final_scoring_step' then
+        local safe_chips = (args.mult*args.chips)/(args.mult+args.chips)
+        args.chips = safe_chips
+	args.mult = 100
+        update_hand_text({delay = 0}, {mult = args.mult, chips = args.chips})
+        delay(0.6)
+        return args.chips, args.mult
+    end
+end
+'''
+match_indent = true

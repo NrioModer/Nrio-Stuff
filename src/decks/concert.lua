@@ -19,4 +19,5 @@ function d:apply()
 	G.GAME.starting_params.ns_concert = true
 end
 
+
 return d
