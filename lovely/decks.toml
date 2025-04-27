@@ -1,8 +1,16 @@
 [manifest]
 version = "1.0.0"
 dump_lua = true
-priority = -1
+priority = 100
 
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = "self.title_top:emplace(replace_card)"
+position = "after"
+payload = "SMODS.Stickers['ns_yhtnsmod']:apply(replace_card, true)"
+match_indent = true
+overwrite = false
 
 [[patches]]
 [patches.pattern]

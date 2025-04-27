@@ -17,20 +17,20 @@ return function(joker_dir, jokers)
       if type(j.atlas) == "number" then
         local n = j.atlas
         j.atlas = "jokers"
-        local x = n % 5
+        local x = n % 10
         if x == 0 then
-          x = 5
+          x = 10
         end
-        j.pos = { x = x - 1, y = math.ceil(n / 5) - 1 }
+        j.pos = { x = x - 1, y = math.ceil(n / 10) - 1 }
       end
 
       if type(j.soul_pos) == "number" then
         local n = j.soul_pos
-        local x = n % 5
+        local x = n % 10
         if x == 0 then
-          x = 5
+          x = 10
         end
-        j.soul_pos = { x = x - 1, y = math.ceil(n / 5) - 1 }
+        j.soul_pos = { x = x - 1, y = math.ceil(n / 10) - 1 }
       end
 
       j.key = k

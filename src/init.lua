@@ -128,15 +128,29 @@ end
 
 if ns_config["Jokers :D"] then
 	NrioStuff.load("joker")("jokers", {
-   		"lone",
+		"clown",
+		"altruistic",
+		"frail",
+		"peaceful",
+   		"abstemious",
+		"funny",
+   		"absurd",
+		"annoyed",
+		"lunatic",
+		"amusing",
+		"brilliant",
+		"ingenuous",
+		"artless",
+		"ignorant",
+		"straightforward",
+		"roughness",
+		"lone",
    		"mismatch",
-   		"stumble"
-	})
-end
-
-if ns_config["Jokers :D"] then
-	NrioStuff.load("challenge")("challenges", {
-   		"april_fool"
+   		"stumble",
+   		"baba",
+		"keke",
+   		"fofo",
+   		"jiji",
 	})
 end
 
@@ -145,6 +159,10 @@ if ns_config["Consumable!!!!"] then
   		"rune",
 	})
 end
+
+NrioStuff.load("sticker")("stickers", {
+  		"yhtnsmod",
+})
 
 local usingMoreFluff=SMODS.Mods and SMODS.Mods["MoreFluff"] and SMODS.Mods["MoreFluff"].can_load or false
 local usingortalab=SMODS.Mods and SMODS.Mods["ortalab"] and SMODS.Mods["ortalab"].can_load or false

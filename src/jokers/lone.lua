@@ -10,7 +10,7 @@ local j = {
   config = {extra = {x_mult = 0.4}},
   rarity = 2,
   cost = 7,
-  atlas = 1,
+  atlas = 67,
   blueprint_compat = false,
 }
 
